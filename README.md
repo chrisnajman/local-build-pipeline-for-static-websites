@@ -1,6 +1,6 @@
 # Local Build Pipeline for Static Websites
 
-Combine and minify all JavaScript modules and CSS, allowing an app to be run from the local file system. The build process also minifies HTML, handles CSS nesting, copies optional images and JSON files, and ensures paths are correctly resolved.
+This build pipeline combines and minifies all JavaScript modules and CSS, allowing the app to run entirely from the local file system. The build process also minifies HTML, handles CSS nesting, copies optional images and JSON files, and ensures paths are correctly resolved.
 
 ## Assumed Folder Structure
 
@@ -25,8 +25,7 @@ package.json    // lists all required npm packages
 
 ## What the Build Does
 
-> [!NOTE]
-> `build.js` creates a new folder, `local/`, which will contain all the processed files. If you want to rename the output folder to something else, e.g. `desktop/`, search and replace `local` in both `build.js and `postcss.config.js`.
+> [!NOTE] > `build.js` creates a new folder, `local/`, which will contain all the processed files. If you want to rename the output folder to something else, e.g. `desktop/`, search and replace `local` in both `build.js` and `postcss.config.js`.
 
 ### JavaScript
 
@@ -34,11 +33,11 @@ package.json    // lists all required npm packages
 
 ### CSS
 
-The build process reads `style.css` and resolves all `@import rules`, removing CSS nesting using PostCSS and `postcss-nesting`. Any background images referenced in the CSS are copied into the `local/images/` folder. The CSS is then minified using `cssnano` and saved as `style.min.css`.
+The build process reads `style.css` and resolves all `@import rules`, removing CSS nesting using `postcss-nesting`. Any background images referenced in the CSS are copied into the `local/images/` folder. The CSS is then minified using `cssnano` and saved as `style.min.css`.
 
 ### HTML
 
-All HTML files in the root directory are copied into a `local/` folder and minified using `html-minifier-terser`. During this process:
+All HTML files in the root directory are copied into the `local/` folder and minified using `html-minifier-terser`. During this process:
 
 - Any existing favicon/apple-touch/manifest links are removed.
 - A new `<link rel="icon" type="image/x-icon" href="./favicon.ico">` is inserted.
@@ -61,6 +60,7 @@ All HTML files in the root directory are copied into a `local/` folder and minif
 
 - Any images in `images/` are copied to `local/images/`.
 - Any JSON files in `json/` are copied to `local/json/`.
+  - JavaScript paths do not need manual updating. Because `esbuild` bundles everything into `index.min.js`, any relative imports (including references to JSON files) continue to work without requiring changes.
 - The `local/` folder is fully self-contained; you can open `index.html` from this folder in any browser and **the app will run without a server**.
 
 ## NPM Requirements
