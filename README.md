@@ -25,7 +25,7 @@ package.json    // lists all required npm packages
 
 ## What the Build Does
 
-> [!NOTE] >
+> [!NOTE]
 > `build.js` creates a new folder, `local/`, which will contain all the processed files.
 > If you want to rename the output folder to something else, e.g. `desktop/`, search and replace `local` in both `build.js and `postcss.config.js`.
 
