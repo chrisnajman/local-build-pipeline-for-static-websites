@@ -1,6 +1,11 @@
 # Local Build Pipeline for Static Websites
 
-This build pipeline combines and minifies all JavaScript modules and CSS, allowing the app to run entirely from the local file system. The build process also minifies HTML, handles CSS nesting, copies optional images and JSON files, and ensures paths are correctly resolved.
+This build pipeline combines and minifies all JavaScript modules and CSS, allowing the app to run entirely from the local file system. The build process also minifies HTML, handles CSS nesting, copies optional images, and ensures paths are correctly resolved.
+
+## Important Note About JSON-Driven Apps
+
+> [!CAUTION]
+> This build pipeline is **not suitable** for apps that rely on JSON files. Any app that fetches JSON data will not work correctly when run from the `local/` folder due to browser security (CORS) restrictions. Use this pipeline only for static assets (HTML, CSS, JS, images).
 
 ## Assumed Folder Structure
 
@@ -13,7 +18,6 @@ style.css
 favicon.ico
 index.html      // and possibly more *.html files (all stored in the root)
 images/         // optional
-json/           // optional
 build.js
 postcss.config.js
 package.json    // lists all required npm packages
@@ -25,8 +29,7 @@ package.json    // lists all required npm packages
 
 ## What the Build Does
 
-> [!NOTE] 
-`build.js` creates a new folder, `local/`, which will contain all the processed files. If you want to rename the output folder to something else, e.g. `desktop/`, search and replace `local` in both `build.js` and `postcss.config.js`.
+> [!NOTE] > `build.js` creates a new folder, `local/`, which will contain all the processed files. If you want to rename the output folder to something else, e.g. `desktop/`, search and replace `local` in both `build.js` and `postcss.config.js`.
 
 ### JavaScript
 
@@ -60,8 +63,6 @@ All HTML files in the root directory are copied into the `local/` folder and min
 ### Optional Assets
 
 - Any images in `images/` are copied to `local/images/`.
-- Any JSON files in `json/` are copied to `local/json/`.
-  - JavaScript paths do not need manual updating. Because `esbuild` bundles everything into `index.min.js`, any relative imports (including references to JSON files) continue to work without requiring changes.
 - The `local/` folder is fully self-contained; you can open `index.html` from this folder in any browser and **the app will run without a server**.
 
 ## NPM Requirements
@@ -101,7 +102,6 @@ index.min.js    // bundled & minified JavaScript
 style.min.css   // combined & minified CSS
 favicon.ico
 images/         // optional
-json/           // optional
 ```
 
 You can now open `local/index.html` directly in your browser.
@@ -111,4 +111,4 @@ You can now open `local/index.html` directly in your browser.
 - All CSS imports and nested rules are flattened and minified.
 - JavaScript is bundled in order and minified for performance.
 - HTML files are automatically updated to reference minified assets and the single favicon.
-- This process is **fully repeatable** - just re-run `node build.js` after updating any JS, CSS, HTML, images, or JSON files.
+- This process is **fully repeatable** - just re-run `node build.js` after updating any JS, CSS, HTML, or images.

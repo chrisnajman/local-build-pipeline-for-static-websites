@@ -63,14 +63,6 @@ async function copyExtras() {
     await fse.copy(imagesSrc, imagesDest)
     console.log("Copied images folder to /local")
   }
-
-  // Copy json folder if exists
-  const jsonSrc = path.join(SRC_DIR, "json")
-  const jsonDest = path.join(DEST_DIR, "json")
-  if (fs.existsSync(jsonSrc)) {
-    await fse.copy(jsonSrc, jsonDest)
-    console.log("Copied json folder to /local")
-  }
 }
 
 async function processHTML() {
