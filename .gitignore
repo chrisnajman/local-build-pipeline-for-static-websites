@@ -6,4 +6,5 @@ json/
 *.html
 index.js
 style.css
+favicon.ico
 local/
